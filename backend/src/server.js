@@ -1,7 +1,7 @@
 import app from "./index.js";
 import "dotenv/config.js";
 import { connectDB } from "./config/db.js";
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000; //localhoost:3000/api/v1/auth/register
 
 // Connect to Database
 const startServer = async () => {
