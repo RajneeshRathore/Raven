@@ -5,9 +5,9 @@ import joi from "joi";
 
 const userSchema = new mongoose.Schema(
   {
-    username: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true,select:false},
+    username: { type: String, required: true,trim:true},
+    email: { type: String, required: true, unique: true,trim:true},
+    password: { type: String, required: true,trim:true,select:false},
     avatarUrl: { type: String },
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
@@ -23,10 +23,9 @@ userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       userId: this._id,
-      email: this.email,
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: process.env.ACCESS_TOKEN_EXPIRY },
+    { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN },
   );
 };
 
@@ -34,7 +33,6 @@ userSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
         userId: this._id,
-        email: this.email,
     },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN },
@@ -42,21 +40,21 @@ userSchema.methods.generateRefreshToken = function () {
 }
 
 
-const User = mongoose.model("User", userSchema);
+const UserModel = mongoose.model("User", userSchema);
 
 const validateUser = (user) =>{
     return joi.object({
-        username: joi.string().min(3).required(),
-        email: joi.string().email().required(),
-        password: joi.string().min(6).required(),
+        username: joi.string().min(3).required().trim(),
+        email: joi.string().email().required().trim(),
+        password: joi.string().min(6).required().trim(),
     }).validate(user);
 }
 
 const validateLogin = (data) =>{
     return joi.object({
-        email: joi.string().email().required(),
-        password: joi.string().min(6).required(),
+        email: joi.string().email().required().trim(),
+        password: joi.string().min(6).required().trim(),
     }).validate(data);
 }
 
-export { User, validateUser, validateLogin };
+export { UserModel, validateUser, validateLogin };
