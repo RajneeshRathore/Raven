@@ -26,7 +26,7 @@ app.use('/api/v1/auth',authRoute);
 
 //Global error middleware
 app.use((err,req,res,next)=>{
-    console.log("first err: ",err);//full error details in the console
+    // console.log("first err: ",err);//full error details in the console
     console.log("second err: ",err.message)//error message only
     return res.status(err.statusCode || 500).json({
       success:false,
