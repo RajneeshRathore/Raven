@@ -3,16 +3,15 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import joi from "joi";
 
-const userSchema = new mongoose.Schema(
-  {
-    username: { type: String, required: true,trim:true},
-    email: { type: String, required: true, unique: true,trim:true},
-    password: { type: String, required: true,trim:true,select:false},
-    avatarUrl: { type: String },
-    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-  },
-  { timestamps: true },
-);
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true,trim:true },
+  email: { type: String, required: true, unique: true,trim:true },
+  password: { type: String, required: true,trim:true, select: false },
+  avatarUrl: String,
+  onlineStatus: { type: String, enum: ["online", "offline", "away"], default: "offline" },
+}, { timestamps: true });
+
+
 
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
@@ -44,8 +43,8 @@ const UserModel = mongoose.model("User", userSchema);
 
 const validateUser = (user) =>{
     return joi.object({
-        username: joi.string().min(3).required().trim(),
-        email: joi.string().email().required().trim(),
+        username: joi.string().min(3).required().trim().unique(),
+        email: joi.string().email().required().trim().unique(),
         password: joi.string().min(6).required().trim(),
     }).validate(user);
 }
