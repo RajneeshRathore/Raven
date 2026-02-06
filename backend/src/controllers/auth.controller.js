@@ -76,4 +76,42 @@ const logout = asyncHandler(async (req,res)=>{
    return res.status(200).json(new ApiResponse(200,{},"Logged out successfully"));
 });
 
-export { register ,login,logout};
+const refresh = asyncHandler(async (req, res) => {
+  const token = req.cookies?.refreshToken;
+  if (!token) throw new ApiError(401, "Unauthorized");
+
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
+
+  const refreshToken = await RefreshTokenModel.findOne({ token: hashedToken });
+  if (!refreshToken) throw new ApiError(403, "Invalid refresh token");
+
+  if (refreshToken.expiresAt < new Date()) {
+    throw new ApiError(403, "Refresh token expired");
+  }
+
+  const user = await UserModel.findById(refreshToken.user);
+  if (!user) throw new ApiError(404, "User not found");
+
+  await RefreshTokenModel.deleteOne({ _id: refreshToken._id });
+
+  const { accessToken, refreshToken: newRefreshToken } =
+    await generateTokens(user, req.headers["user-agent"] || "Unknown Device");
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, cookieOptions)
+    .cookie("refreshToken", newRefreshToken, cookieOptions)
+    .json(
+      new ApiResponse(
+        200,
+        { accessToken, refreshToken: newRefreshToken },
+        "Tokens refreshed successfully"
+      )
+    );
+});
+
+
+export { register ,login,logout,refresh};
