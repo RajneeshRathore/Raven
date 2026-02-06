@@ -22,7 +22,7 @@ app.use(express.static('public'));//to serve static files like images
 
 //Route middlewares
 app.use('/api/v1/auth',authRoute);
-app.use('/api/v1/user',userRoute);
+app.use('/api/v1/users',userRoute);
 
 
 

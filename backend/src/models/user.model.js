@@ -4,10 +4,10 @@ import jwt from "jsonwebtoken";
 import joi from "joi";
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true,trim:true },
+  username: { type: String, required: true,unique:true,trim:true },
   email: { type: String, required: true, unique: true,trim:true },
   password: { type: String, required: true,trim:true, select: false },
-  avatarUrl: String,
+  avatarUrl:{ type: String, default: '' },
   onlineStatus: { type: String, enum: ["online", "offline", "away"], default: "offline" },
 }, { timestamps: true });
 
@@ -43,8 +43,8 @@ const UserModel = mongoose.model("User", userSchema);
 
 const validateUser = (user) =>{
     return joi.object({
-        username: joi.string().min(3).required().trim().unique(),
-        email: joi.string().email().required().trim().unique(),
+        username: joi.string().min(3).required().trim(),
+        email: joi.string().email().required().trim(),
         password: joi.string().min(6).required().trim(),
     }).validate(user);
 }
