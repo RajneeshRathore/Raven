@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoute from './routes/auth.route.js'
+import userRoute from './routes/user.route.js'
+import friendRoute from './routes/friendship.route.js'
+import dmMessageRoute from './routes/dmMessage.route.js'
 
 const app = express();
 app.use((req,res,next)=>{
@@ -21,12 +24,14 @@ app.use(express.static('public'));//to serve static files like images
 
 //Route middlewares
 app.use('/api/v1/auth',authRoute);
-
+app.use('/api/v1/users',userRoute);
+app.use('/api/v1/friends',friendRoute);
+app.use('/api/v1/dmMessages',dmMessageRoute);
 
 
 //Global error middleware
 app.use((err,req,res,next)=>{
-    console.log("first err: ",err);//full error details in the console
+    // console.log("first err: ",err);//full error details in the console
     console.log("second err: ",err.message)//error message only
     return res.status(err.statusCode || 500).json({
       success:false,
