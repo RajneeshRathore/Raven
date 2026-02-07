@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   sendFriendRequest,
   acceptFriendRequest,rejectFriendRequest,blockUser,getFriends,getFriendRequests
-} from "../controllers/friend.controller.js";
+} from "../controllers/friendship.controller.js";
 import authMiddleware from "../middlewares/auth.middleware.js";
 const router = Router();
 
