@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));//to parse urlencoded data
 app.use(express.static('public'));//to serve static files like images
 
 //Route middlewares
-app.use('/api/v1/auth',authRoute);
+app.use('/user/auth',authRoute);
 
 
 

@@ -8,8 +8,8 @@ const Hero = () => {
       <div className="absolute inset-0">
         <Silk
           speed={4}
-          scale={0.8}
-          color="#0e0552"
+          scale={1}
+          color="#1b1a1a"
           noiseIntensity={0}
           rotation={0}
         />

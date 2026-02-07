@@ -8,7 +8,7 @@ const logo = () => {
       <img
               src={ravenWhite}
               alt="Raven logo"
-              className="h-20 "
+              className="h-20"
             />
     </Link>
   )

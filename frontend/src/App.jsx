@@ -4,11 +4,13 @@ import HomePage from './pages/HomePage'
 import NavBar from './components/normal/NavBar'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Home from './pages/Home'
 const router=createBrowserRouter(
   createRoutesFromElements(<Route path='/'>
     <Route index  element={<HomePage/>}/>
     <Route index path='/login' element={<Login/>} />
     <Route index path='/register' element={<Register/>} />
+    <Route index path='/home' element={<Home/>}/>
   </Route>)
 )
 const App = () => {

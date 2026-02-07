@@ -1,9 +1,10 @@
 import React from "react";
 import Particles from "../components/animated/ParticleSpread";
 import Logo from "../components/normal/Logo";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate=useNavigate();
   return (
     <div className="h-screen bg-black">
       <div
@@ -60,6 +61,7 @@ const Login = () => {
     <button
       className="mt-6 w-full rounded-lg bg-white py-3 font-semibold text-black
                  hover:bg-white/90 active:scale-95 transition"
+                 onClick={()=>navigate('/home')}
     >
       Log In
     </button>
