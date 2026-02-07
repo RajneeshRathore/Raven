@@ -3,8 +3,8 @@ import { sendDMMessage,getDMMessages } from '../controllers/dmMessage.controller
 import authMiddleware from '../middlewares/auth.middleware.js';
 const router = Router();
 
-router.post('/send/:receiverId',authMiddleware,sendDMMessage);
-router.get('/:userId',authMiddleware,getDMMessages);
+router.post("/:userId", authMiddleware, sendDMMessage);
+router.get("/:userId/messages", authMiddleware, getDMMessages);
 
 
 export default router;
